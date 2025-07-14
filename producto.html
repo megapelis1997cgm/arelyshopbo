@@ -24,6 +24,13 @@
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;  /* Firefox */
         }
+        .gallery-arrow {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .group:hover .gallery-arrow {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -276,26 +283,28 @@
             let thumbnailsHTML = photoUrls.map((url, index) => {
                 const thumbPlaceholder = `https://placehold.co/100x100/E0E0E0/757575?text=${index + 1}`;
                 const isSelected = index === 0 ? 'selected-thumbnail' : '';
-                return `<img src="${url}" onerror="this.onerror=null;this.src='${thumbPlaceholder}';" alt="Miniatura ${index + 1}" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent ${isSelected}" onclick="changeImage(this)">`;
+                return `<img src="${url}" onerror="this.onerror=null;this.src='${thumbPlaceholder}';" alt="Miniatura ${index + 1}" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent ${isSelected}" onclick="changeImage(this, ${index})">`;
             }).join('');
 
             galleryContainer.innerHTML = `
-                <div class="mb-4">
-                    <img id="main-image" src="${mainImageUrl}" onerror="this.onerror=null;this.src='${placeholderUrl}';" alt="Imagen principal de ${productName}" class="w-full aspect-square object-cover rounded-lg shadow-md">
+                <div class="mb-4 relative group">
+                    <img id="main-image" src="${mainImageUrl}" onerror="this.onerror=null;this.src='${placeholderUrl}';" alt="Imagen principal de ${productName}" class="w-full aspect-square object-cover rounded-lg shadow-md cursor-pointer">
+                    <button id="gallery-prev-btn" class="gallery-arrow absolute left-3 top-1/2 -translate-y-1/2 bg-white/50 rounded-full h-10 w-10 flex items-center justify-center shadow-md z-10 text-xl text-gray-800 hover:bg-white/80">&lt;</button>
+                    <button id="gallery-next-btn" class="gallery-arrow absolute right-3 top-1/2 -translate-y-1/2 bg-white/50 rounded-full h-10 w-10 flex items-center justify-center shadow-md z-10 text-xl text-gray-800 hover:bg-white/80">&gt;</button>
                 </div>
                 <div class="relative">
-                    <button id="prev-btn" class="absolute -left-3 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-1 shadow-md hidden md:block z-10 text-xl">&lt;</button>
                     <div id="thumbnail-wrapper" class="overflow-x-auto whitespace-nowrap scroll-smooth scrollbar-hide flex gap-2">
                         ${thumbnailsHTML}
                     </div>
-                    <button id="next-btn" class="absolute -right-3 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-1 shadow-md hidden md:block z-10 text-xl">&gt;</button>
                 </div>
             `;
             
-            setupGalleryNavigation();
+            setupGalleryNavigation(photoUrls);
         }
 
-        function changeImage(thumbnailElement) {
+        let currentIndex = 0;
+        function changeImage(thumbnailElement, index) {
+            currentIndex = index;
             const mainImage = document.getElementById('main-image');
             mainImage.src = thumbnailElement.src;
             
@@ -310,45 +319,62 @@
             thumbnailElement.classList.add('selected-thumbnail');
         }
 
-        function setupGalleryNavigation() {
-            const wrapper = document.getElementById('thumbnail-wrapper');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
+        function setupGalleryNavigation(photoUrls) {
+            const mainImage = document.getElementById('main-image');
+            const prevBtn = document.getElementById('gallery-prev-btn');
+            const nextBtn = document.getElementById('gallery-next-btn');
             
-            if(!wrapper || !prevBtn || !nextBtn) return;
+            if(!mainImage || !prevBtn || !nextBtn) return;
+
+            const updateGallery = () => {
+                mainImage.src = photoUrls[currentIndex];
+                const thumbnails = document.querySelectorAll('.thumbnail');
+                thumbnails.forEach((thumb, index) => {
+                    thumb.classList.toggle('selected-thumbnail', index === currentIndex);
+                });
+                thumbnails[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            };
 
             prevBtn.addEventListener('click', () => {
-                wrapper.scrollBy({ left: -100, behavior: 'smooth' });
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : photoUrls.length - 1;
+                updateGallery();
             });
             
             nextBtn.addEventListener('click', () => {
-                wrapper.scrollBy({ left: 100, behavior: 'smooth' });
+                currentIndex = (currentIndex < photoUrls.length - 1) ? currentIndex + 1 : 0;
+                updateGallery();
             });
 
-            let isDown = false;
-            let startX;
-            let scrollLeft;
+            // Swipe functionality for main image (touch and mouse)
+            let touchStartX = 0;
+            let touchEndX = 0;
 
-            wrapper.addEventListener('mousedown', (e) => {
-                isDown = true;
-                wrapper.classList.add('cursor-grabbing');
-                startX = e.pageX - wrapper.offsetLeft;
-                scrollLeft = wrapper.scrollLeft;
+            const handleSwipe = () => {
+                if (touchEndX < touchStartX - 50) { // Swiped left
+                    nextBtn.click();
+                }
+                if (touchEndX > touchStartX + 50) { // Swiped right
+                    prevBtn.click();
+                }
+            };
+
+            mainImage.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            mainImage.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
             });
-            wrapper.addEventListener('mouseleave', () => {
-                isDown = false;
-                wrapper.classList.remove('cursor-grabbing');
+
+            mainImage.addEventListener('mousedown', (e) => {
+                touchStartX = e.pageX;
+                e.preventDefault(); // Prevent image drag
             });
-            wrapper.addEventListener('mouseup', () => {
-                isDown = false;
-                wrapper.classList.remove('cursor-grabbing');
-            });
-            wrapper.addEventListener('mousemove', (e) => {
-                if(!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - wrapper.offsetLeft;
-                const walk = (x - startX) * 2; //scroll-fast
-                wrapper.scrollLeft = scrollLeft - walk;
+
+            mainImage.addEventListener('mouseup', (e) => {
+                touchEndX = e.pageX;
+                handleSwipe();
             });
         }
 
