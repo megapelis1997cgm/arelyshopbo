@@ -208,17 +208,6 @@
             const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwnLFgBw30tyAFXc2olw5LLnqQdaxMRiZSpSndWSWhslTkqATarBs8dLImUhcXLK8EmBEs7gUL10oK/pub?output=csv';
             const productGrid = document.getElementById('product-grid');
 
-            fetch(csvUrl)
-              .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
-              .then(text => {
-                const products = parseCSV(text);
-                displayProducts(products);
-              })
-              .catch(error => {
-                console.error('Error fetching or parsing CSV:', error);
-                productGrid.innerHTML = '<p class="col-span-full text-center text-red-500">No se pudieron cargar los productos.</p>';
-              });
-
             function parseCSV(text) {
                 const lines = text.trim().split(/\r\n|\n/);
                 const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
@@ -258,7 +247,7 @@
                     const cardHTML = `
                         <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 group flex flex-col">
                             <a href="${productLink}" class="flex flex-col flex-grow">
-                                <img src="${imageUrl}" onerror="this.onerror=null;this.src='${placeholderUrl}';" alt="Imagen de ${name}" class="w-full h-40 object-cover">
+                                <img src="${imageUrl}" onerror="this.onerror=null;this.src='${placeholderUrl}';" alt="Imagen de ${name}" class="w-full aspect-square object-cover">
                                 <div class="p-4 flex flex-col flex-grow">
                                     <h3 class="text-sm font-medium text-gray-700 h-12 mb-2 group-hover:text-orange-600 transition-colors truncate-fade">${name}</h3>
                                     <div class="mt-auto">
@@ -272,6 +261,17 @@
                     productGrid.innerHTML += cardHTML;
                 });
             }
+
+            fetch(csvUrl)
+              .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+              .then(text => {
+                const products = parseCSV(text);
+                displayProducts(products);
+              })
+              .catch(error => {
+                console.error('Error fetching or parsing CSV:', error);
+                productGrid.innerHTML = '<p class="col-span-full text-center text-red-500">No se pudieron cargar los productos.</p>';
+              });
         });
     </script>
 </body>
