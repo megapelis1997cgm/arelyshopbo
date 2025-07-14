@@ -44,14 +44,14 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
                 </button>
             </div>
-            <div class="w-full lg:flex-grow lg:max-w-xl order-last lg:order-none mt-3 lg:mt-0">
+            <form id="search-form" class="w-full lg:flex-grow lg:max-w-xl order-last lg:order-none mt-3 lg:mt-0">
                 <div class="flex">
-                    <input type="text" placeholder="Busca en Arelyshop..." class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500">
-                    <button class="bg-orange-600 text-white px-6 py-2 rounded-r-md hover:bg-orange-700 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    <input id="search-input" type="text" placeholder="Busca en Arelyshop..." class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <button type="submit" class="bg-orange-600 text-white px-6 py-2 rounded-r-md hover:bg-orange-700 transition-colors">
+                        <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
         <div id="mobile-menu" class="hidden lg:hidden mt-4 px-4">
             <nav class="flex flex-col gap-4">
@@ -129,6 +129,18 @@
         
         // Set current year in footer
         document.getElementById('footer-year').textContent = new Date().getFullYear();
+        
+        // Search form handler
+        document.getElementById('search-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchTerm = document.getElementById('search-input').value;
+            if (searchTerm.trim()) {
+                // Correctly construct the URL for navigation
+                const url = new URL('colecciones.html', window.location.href);
+                url.searchParams.set('search', searchTerm.trim());
+                window.location.href = url.href;
+            }
+        });
 
         // --- DATA FETCHING AND DISPLAY ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -147,7 +159,7 @@
               .then(response => response.text())
               .then(text => {
                 const products = parseCSV(text);
-                const product = products[parseInt(productId)];
+                const product = products.find(p => p.id == productId);
                 if (product) {
                     displayProductDetails(product);
                 } else {
@@ -163,13 +175,15 @@
         function parseCSV(text) {
             const lines = text.trim().split(/\r\n|\n/);
             const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-            return lines.slice(1).map(line => {
+            return lines.slice(1).map((line, index) => {
                 if (line.trim() === '') return null;
                 const values = line.split(',');
-                return headers.reduce((obj, header, index) => {
-                    obj[header] = values[index] ? values[index].trim() : '';
+                const product = headers.reduce((obj, header, i) => {
+                    obj[header] = values[i] ? values[i].trim() : '';
                     return obj;
                 }, {});
+                product.id = index; // Assign a unique ID
+                return product;
             }).filter(Boolean);
         }
 
@@ -238,8 +252,6 @@
             }
 
             // !!! IMPORTANTE: REEMPLAZA ESTA URL BASE !!!
-            // Esta debe ser la URL pública de tu carpeta de Google Drive.
-            // He usado un marcador de posición que muestra el nombre del archivo esperado.
             const imageBaseUrl = 'https://placehold.co/600x600/E0E0E0/757575?text='; // <-- CAMBIA ESTO
             const thumbBaseUrl = 'https://placehold.co/100x100/E0E0E0/757575?text='; // <-- CAMBIA ESTO
 
