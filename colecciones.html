@@ -147,25 +147,31 @@
             const pageTitle = document.getElementById('page-title');
             const pageSubtitle = document.getElementById('page-subtitle');
             
-            let allProducts = []; // To store all products once fetched
+            let allProducts = [];
 
             function parseCSV(text) {
                 const lines = text.trim().split(/\r\n|\n/);
                 const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-                const fotosIndex = headers.indexOf('fotos');
-
+                
                 return lines.slice(1).map((line, index) => {
                     if (line.trim() === '') return null;
                     
                     const values = line.split(',');
                     const product = {};
 
-                    for (let i = 0; i < fotosIndex; i++) {
+                    // This assumes a fixed number of columns before the photo columns
+                    const nonPhotoColumns = 6; // Nombre, Precio, Compra, Mayoreo, SKU, Cantidad
+                    
+                    for (let i = 0; i < nonPhotoColumns; i++) {
                         product[headers[i]] = values[i] ? values[i].trim() : '';
                     }
                     
-                    if (fotosIndex !== -1) {
-                        product[headers[fotosIndex]] = values.slice(fotosIndex).join(',').trim();
+                    for (let i = 1; i <= 6; i++) {
+                        const header = `foto ${i}`;
+                        const valueIndex = headers.indexOf(header);
+                        if(valueIndex !== -1) {
+                           product[header] = values[valueIndex] ? values[valueIndex].trim() : '';
+                        }
                     }
 
                     product.id = index;
@@ -187,9 +193,8 @@
                     const isOutOfStock = isNaN(quantity) || quantity <= 0;
                     const productLink = `producto.html?id=${product.id}`;
                     
-                    const photoUrls = product.fotos ? product.fotos.split(',').map(url => url.trim()) : [];
+                    const imageUrl = product['foto 1'] || `https://placehold.co/300x300/E0E0E0/757575?text=${encodeURIComponent(name)}`;
                     const placeholderUrl = `https://placehold.co/300x300/E0E0E0/757575?text=${encodeURIComponent(name)}`;
-                    const imageUrl = photoUrls.length > 0 ? photoUrls[0] : placeholderUrl;
 
                     let cardHTML;
                     if (isOutOfStock) {
