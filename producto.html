@@ -144,16 +144,6 @@
             }
         });
 
-        function transformGoogleDriveLink(url) {
-            const regex = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/;
-            const match = url.match(regex);
-            if (match && match[1]) {
-                const fileId = match[1];
-                return `https://drive.google.com/uc?export=view&id=${fileId}`;
-            }
-            return url; // Return original url if it's not a standard GDrive link
-        }
-
         // --- DATA FETCHING AND DISPLAY ---
         document.addEventListener('DOMContentLoaded', () => {
             const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwnLFgBw30tyAFXc2olw5LLnqQdaxMRiZSpSndWSWhslTkqATarBs8dLImUhcXLK8EmBEs7gUL10oK/pub?output=csv';
@@ -187,14 +177,18 @@
         function parseCSV(text) {
             const lines = text.trim().split(/\r\n|\n/);
             const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+            
             return lines.slice(1).map((line, index) => {
                 if (line.trim() === '') return null;
+                
                 const values = line.split(',');
-                const product = headers.reduce((obj, header, i) => {
-                    obj[header] = values[i] ? values[i].trim() : '';
-                    return obj;
-                }, {});
-                product.id = index; // Assign a unique ID
+                const product = {};
+
+                for (let i = 0; i < headers.length; i++) {
+                    product[headers[i]] = values[i] ? values[i].trim() : '';
+                }
+
+                product.id = index;
                 return product;
             }).filter(Boolean);
         }
@@ -205,7 +199,13 @@
             const price = product.precio || 'N/A';
             const wholesalePrice = product.mayoreo || 'N/A';
             const description = product.description || 'No hay descripción disponible para este producto.';
-            const photoData = product.fotos || '';
+            
+            const photoUrls = [];
+            for (let i = 1; i <= 6; i++) {
+                if (product[`foto ${i}`]) {
+                    photoUrls.push(product[`foto ${i}`]);
+                }
+            }
 
             document.title = `${name} - Arelyshop`;
 
@@ -247,13 +247,12 @@
             `;
             
             document.getElementById('description-content').innerHTML = `<p>${description.replace(/\n/g, '</p><p>')}</p>`;
-            generateImageGallery(photoData, name);
+            generateImageGallery(photoUrls, name);
             addEventListeners();
         }
         
-        function generateImageGallery(photoData, productName) {
+        function generateImageGallery(photoUrls, productName) {
             const galleryContainer = document.getElementById('gallery-container');
-            const photoUrls = photoData && photoData.trim() !== '' ? photoData.split(',').map(url => transformGoogleDriveLink(url.trim())) : [];
             const placeholderUrl = `https://placehold.co/600x600/E0E0E0/757575?text=${encodeURIComponent(productName)}`;
 
             if (photoUrls.length === 0) {
