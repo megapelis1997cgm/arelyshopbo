@@ -247,12 +247,15 @@
                     const price = product.precio || 'N/A';
                     const wholesalePrice = product.mayoreo || 'N/A';
                     const productLink = `producto.html?id=${product.id}`;
-                    const imageUrl = `https://placehold.co/300x300/E0E0E0/757575?text=${encodeURIComponent(name)}`;
+                    
+                    const photoUrls = product.fotos ? product.fotos.split(',').map(url => url.trim()) : [];
+                    const imageUrl = photoUrls.length > 0 ? photoUrls[0] : `https://placehold.co/300x300/E0E0E0/757575?text=${encodeURIComponent(name)}`;
+                    const placeholderUrl = `https://placehold.co/300x300/E0E0E0/757575?text=${encodeURIComponent(name)}`;
 
                     const cardHTML = `
                         <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 group flex flex-col">
                             <a href="${productLink}" class="flex flex-col flex-grow">
-                                <img src="${imageUrl}" alt="Imagen de ${name}" class="w-full h-40 object-cover">
+                                <img src="${imageUrl}" onerror="this.onerror=null;this.src='${placeholderUrl}';" alt="Imagen de ${name}" class="w-full h-40 object-cover">
                                 <div class="p-4 flex flex-col flex-grow">
                                     <h3 class="text-sm font-medium text-gray-700 h-12 mb-2 group-hover:text-orange-600 transition-colors truncate-fade">${name}</h3>
                                     <div class="mt-auto">
