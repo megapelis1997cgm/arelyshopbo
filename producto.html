@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles del Producto - AliClon</title>
+    <title>Detalles del Producto - Arelyshop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
         <div class="container mx-auto flex items-center justify-between gap-4">
             <!-- Logo -->
             <a href="index.html" class="text-2xl md:text-3xl font-bold text-orange-600">
-                AliClon
+                Arelyshop
             </a>
 
             <!-- Search Bar -->
@@ -55,74 +55,9 @@
 
     <!-- Main Content -->
     <main class="container mx-auto p-4 md:p-8">
-        <div class="bg-white rounded-lg shadow-lg p-4 md:p-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Product Image Gallery -->
-                <div>
-                    <div class="mb-4">
-                        <img id="main-image" src="https://placehold.co/600x600/E0E0E0/757575?text=Producto" alt="Imagen principal del producto" class="w-full h-auto rounded-lg shadow-md object-cover">
-                    </div>
-                    <div class="flex gap-2">
-                        <img src="https://placehold.co/100x100/E0E0E0/757575?text=Vista+1" alt="Miniatura 1" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent selected-thumbnail" onclick="changeImage(this.src)">
-                        <img src="https://placehold.co/100x100/D1D1D1/757575?text=Vista+2" alt="Miniatura 2" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent" onclick="changeImage(this.src)">
-                        <img src="https://placehold.co/100x100/C2C2C2/757575?text=Vista+3" alt="Miniatura 3" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent" onclick="changeImage(this.src)">
-                        <img src="https://placehold.co/100x100/B3B3B3/757575?text=Vista+4" alt="Miniatura 4" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent" onclick="changeImage(this.src)">
-                    </div>
-                </div>
-
-                <!-- Product Details and Actions -->
-                <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Auriculares Inalámbricos con Cancelación de Ruido y Audio Espacial</h1>
-                    <div class="flex items-center mb-4">
-                        <span class="text-yellow-400 text-lg">★★★★☆</span>
-                        <a href="#reviews" class="text-sm text-gray-500 ml-2 hover:text-orange-600">1,234 valoraciones</a>
-                        <span class="text-gray-300 mx-2">|</span>
-                        <span class="text-sm text-gray-500">2,587 vendidos</span>
-                    </div>
-
-                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                        <p class="text-3xl font-bold text-orange-600">$49.99</p>
-                        <p class="text-md text-gray-500 line-through">Precio anterior: $99.99 (50% de descuento)</p>
-                    </div>
-
-                    <!-- Product Options: Color -->
-                    <div class="mb-6">
-                        <h3 class="text-md font-semibold text-gray-700 mb-2">Color: <span id="selected-color">Negro</span></h3>
-                        <div class="flex gap-2" id="color-options">
-                            <button data-value="Negro" class="option-btn color-option h-8 w-8 rounded-full bg-black border-2 selected-option"></button>
-                            <button data-value="Blanco" class="option-btn color-option h-8 w-8 rounded-full bg-white border-2"></button>
-                            <button data-value="Azul" class="option-btn color-option h-8 w-8 rounded-full bg-blue-700 border-2"></button>
-                            <button data-value="Rojo" class="option-btn color-option h-8 w-8 rounded-full bg-red-600 border-2"></button>
-                        </div>
-                    </div>
-
-                    <!-- Product Options: Size -->
-                    <div class="mb-6">
-                        <h3 class="text-md font-semibold text-gray-700 mb-2">Almacenamiento: <span id="selected-size">128GB</span></h3>
-                        <div class="flex gap-2" id="size-options">
-                            <button data-value="128GB" class="option-btn size-option px-4 py-2 border-2 rounded-md selected-option">128GB</button>
-                            <button data-value="256GB" class="option-btn size-option px-4 py-2 border-2 rounded-md">256GB</button>
-                            <button data-value="512GB" class="option-btn size-option px-4 py-2 border-2 rounded-md">512GB</button>
-                        </div>
-                    </div>
-
-                    <!-- Quantity Selector -->
-                    <div class="mb-6">
-                         <h3 class="text-md font-semibold text-gray-700 mb-2">Cantidad</h3>
-                        <div class="flex items-center">
-                            <button id="decrease-quantity" class="bg-gray-200 text-gray-700 h-10 w-10 rounded-l-md font-bold text-xl hover:bg-gray-300">-</button>
-                            <input id="quantity-input" type="text" value="1" class="w-16 h-10 text-center border-t border-b border-gray-200 focus:outline-none">
-                            <button id="increase-quantity" class="bg-gray-200 text-gray-700 h-10 w-10 rounded-r-md font-bold text-xl hover:bg-gray-300">+</button>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <button class="w-full bg-orange-200 text-orange-800 font-bold py-3 rounded-lg hover:bg-orange-300 transition-colors">Añadir a la cesta</button>
-                        <button class="w-full bg-orange-600 text-white font-bold py-3 rounded-lg hover:bg-orange-700 transition-colors">Comprar ahora</button>
-                    </div>
-                </div>
-            </div>
+        <div id="product-details-container" class="bg-white rounded-lg shadow-lg p-4 md:p-8">
+            <!-- Product details will be injected here -->
+            <p class="text-center text-gray-500">Cargando detalles del producto...</p>
         </div>
 
         <!-- Description and Reviews Section -->
@@ -130,63 +65,17 @@
             <div class="border-b border-gray-200">
                 <nav class="flex gap-6" id="tab-nav">
                     <button data-tab="description" class="tab-btn py-4 px-1 text-orange-600 border-b-2 border-orange-600 font-semibold">Descripción</button>
-                    <button data-tab="reviews" class="tab-btn py-4 px-1 text-gray-500 font-semibold">Opiniones (1,234)</button>
+                    <button data-tab="reviews" class="tab-btn py-4 px-1 text-gray-500 font-semibold">Opiniones</button>
                 </nav>
             </div>
             <div class="py-6">
                 <!-- Description Content -->
                 <div id="description" class="tab-content text-gray-700 leading-relaxed">
-                    <p class="mb-4">Disfruta de una experiencia de audio inmersiva con nuestros auriculares inalámbricos de última generación. Diseñados para la comodidad y un rendimiento excepcional, son el compañero perfecto para tu música, podcasts y llamadas.</p>
-                    <h4 class="font-bold text-lg mb-2">Características Principales:</h4>
-                    <ul class="list-disc list-inside mb-4">
-                        <li>Cancelación de ruido activa (ANC) para bloquear distracciones.</li>
-                        <li>Audio espacial con seguimiento dinámico de la cabeza.</li>
-                        <li>Hasta 30 horas de autonomía con el estuche de carga.</li>
-                        <li>Resistentes al sudor y al agua (IPX4).</li>
-                        <li>Conexión Bluetooth 5.2 de baja latencia.</li>
-                    </ul>
-                     <h4 class="font-bold text-lg mb-2">Especificaciones Técnicas:</h4>
-                     <ul class="list-disc list-inside">
-                        <li>Peso: 5.4g (cada auricular), 45.6g (estuche)</li>
-                        <li>Driver: Dinámico de 11mm</li>
-                        <li>Codecs: AAC, SBC</li>
-                        <li>Puerto de carga: USB-C</li>
-                    </ul>
+                    <p class="mb-4">Aquí va la descripción detallada del producto. Este contenido puede ser cargado dinámicamente o ser un texto estático.</p>
                 </div>
                 <!-- Reviews Content -->
                 <div id="reviews-content" class="tab-content hidden">
-                    <div class="space-y-6">
-                        <!-- Review 1 -->
-                        <div class="border-b border-gray-200 pb-6">
-                            <div class="flex items-center mb-2">
-                                <img src="https://placehold.co/40x40/FFC107/FFFFFF?text=J" alt="Avatar" class="rounded-full mr-3">
-                                <div>
-                                    <p class="font-semibold">Juan Pérez</p>
-                                    <p class="text-sm text-gray-500">Comprado el 01 de Julio, 2025</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center mb-2">
-                                <span class="text-yellow-400">★★★★★</span>
-                                <span class="text-sm font-semibold ml-2">¡Increíbles!</span>
-                            </div>
-                            <p class="text-gray-700">La cancelación de ruido es la mejor que he probado. La batería dura muchísimo y son súper cómodos. Valen cada centavo.</p>
-                        </div>
-                        <!-- Review 2 -->
-                         <div class="border-b border-gray-200 pb-6">
-                            <div class="flex items-center mb-2">
-                                <img src="https://placehold.co/40x40/4CAF50/FFFFFF?text=M" alt="Avatar" class="rounded-full mr-3">
-                                <div>
-                                    <p class="font-semibold">María García</p>
-                                    <p class="text-sm text-gray-500">Comprado el 28 de Junio, 2025</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center mb-2">
-                                <span class="text-yellow-400">★★★★☆</span>
-                                <span class="text-sm font-semibold ml-2">Muy buenos, pero...</span>
-                            </div>
-                            <p class="text-gray-700">El sonido es espectacular y se conectan al instante. Les doy 4 estrellas porque el color blanco se ensucia con facilidad, pero por lo demás, perfectos.</p>
-                        </div>
-                    </div>
+                    <p>Aquí se mostrarían las opiniones de los clientes.</p>
                 </div>
             </div>
         </div>
@@ -206,7 +95,7 @@
                 </div>
                 <div>
                     <h4 class="font-bold text-lg mb-4">Colabora con Nosotros</h4>
-                    <ul><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Vende en AliClon</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Programa de Afiliados</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Blog para Vendedores</a></li></ul>
+                    <ul><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Vende en Arelyshop</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Programa de Afiliados</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Blog para Vendedores</a></li></ul>
                 </div>
                 <div>
                     <h4 class="font-bold text-lg mb-4">Síguenos</h4>
@@ -218,51 +107,136 @@
                 </div>
             </div>
             <div class="mt-10 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
-                <p>&copy; 2024 AliClon. Todos los derechos reservados.</p>
+                <p>&copy; 2024 Arelyshop. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
 
     <script>
-        // Image Gallery
-        function changeImage(src) {
-            document.getElementById('main-image').src = src.replace('100x100', '600x600');
-            const thumbnails = document.querySelectorAll('.thumbnail');
-            thumbnails.forEach(thumb => {
-                thumb.classList.remove('selected-thumbnail');
-                if (thumb.src === src) {
-                    thumb.classList.add('selected-thumbnail');
-                }
-            });
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwnLFgBw30tyAFXc2olw5LLnqQdaxMRiZSpSndWSWhslTkqATarBs8dLImUhcXLK8EmBEs7gUL10oK/pub?output=csv';
+            const container = document.getElementById('product-details-container');
+            
+            const params = new URLSearchParams(window.location.search);
+            const productId = params.get('id');
 
-        // Option Selector
-        function handleOptionSelection(optionType) {
-            const options = document.querySelectorAll(`.${optionType}-option`);
-            options.forEach(option => {
-                option.addEventListener('click', () => {
-                    options.forEach(opt => opt.classList.remove('selected-option'));
-                    option.classList.add('selected-option');
-                    document.getElementById(`selected-${optionType}`).innerText = option.dataset.value;
-                });
-            });
-        }
-
-        handleOptionSelection('color');
-        handleOptionSelection('size');
-
-        // Quantity Selector
-        const quantityInput = document.getElementById('quantity-input');
-        document.getElementById('increase-quantity').addEventListener('click', () => {
-            quantityInput.value = parseInt(quantityInput.value) + 1;
-        });
-        document.getElementById('decrease-quantity').addEventListener('click', () => {
-            const currentValue = parseInt(quantityInput.value);
-            if (currentValue > 1) {
-                quantityInput.value = currentValue - 1;
+            if (productId === null) {
+                container.innerHTML = '<h1 class="text-2xl font-bold text-center text-red-600">Producto no encontrado.</h1><p class="text-center">Por favor, selecciona un producto desde la página de inicio.</p>';
+                return;
             }
+
+            fetch(csvUrl)
+              .then(response => response.text())
+              .then(text => {
+                const products = parseCSV(text);
+                const product = products[parseInt(productId)];
+                if (product) {
+                    displayProductDetails(product);
+                } else {
+                    container.innerHTML = '<h1 class="text-2xl font-bold text-center text-red-600">Producto no encontrado.</h1>';
+                }
+              })
+              .catch(error => {
+                console.error('Error fetching product data:', error);
+                container.innerHTML = '<h1 class="text-2xl font-bold text-center text-red-600">No se pudo cargar el producto.</h1>';
+              });
         });
+
+        function parseCSV(text) {
+            const lines = text.trim().split(/\r\n|\n/);
+            const headers = lines[0].split(',').map(h => h.trim());
+            const products = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (lines[i].trim() === '') continue;
+                const values = lines[i].split(',').map(v => v.trim());
+                let product = {};
+                for (let j = 0; j < headers.length; j++) {
+                    product[headers[j]] = values[j];
+                }
+                products.push(product);
+            }
+            return products;
+        }
+
+        function displayProductDetails(product) {
+            const container = document.getElementById('product-details-container');
+            const name = product.nombre || 'Producto sin nombre';
+            const price = product.precio || 'N/A';
+            const wholesalePrice = product.mayoreo || 'N/A';
+            const imageUrl = `https://placehold.co/600x600/E0E0E0/757575?text=${encodeURIComponent(name)}`;
+
+            document.title = `${name} - Arelyshop`;
+
+            container.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Product Image Gallery -->
+                    <div>
+                        <div class="mb-4">
+                            <img id="main-image" src="${imageUrl}" alt="Imagen de ${name}" class="w-full h-auto rounded-lg shadow-md object-cover">
+                        </div>
+                        <!-- Thumbnails can be added dynamically if multiple images are available -->
+                    </div>
+
+                    <!-- Product Details and Actions -->
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">${name}</h1>
+                        <div class="flex items-center mb-4">
+                            <span class="text-yellow-400 text-lg">★★★★☆</span>
+                            <a href="#reviews" class="text-sm text-gray-500 ml-2 hover:text-orange-600">Ver valoraciones</a>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <div class="flex items-baseline gap-2">
+                                <p class="text-3xl font-bold text-orange-600">$${price}</p>
+                                <p class="text-md text-gray-500">por unidad</p>
+                            </div>
+                            <p class="text-xl font-semibold text-green-600 mt-1">
+                                <span>$${wholesalePrice}</span>
+                                <span class="text-md text-gray-500">por mayoreo</span>
+                            </p>
+                        </div>
+
+                        <!-- Opciones como color y talla pueden ser añadidas aquí si están en el CSV -->
+
+                        <!-- Quantity Selector -->
+                        <div class="mb-6">
+                            <h3 class="text-md font-semibold text-gray-700 mb-2">Cantidad</h3>
+                            <div class="flex items-center">
+                                <button id="decrease-quantity" class="bg-gray-200 text-gray-700 h-10 w-10 rounded-l-md font-bold text-xl hover:bg-gray-300">-</button>
+                                <input id="quantity-input" type="text" value="1" class="w-16 h-10 text-center border-t border-b border-gray-200 focus:outline-none">
+                                <button id="increase-quantity" class="bg-gray-200 text-gray-700 h-10 w-10 rounded-r-md font-bold text-xl hover:bg-gray-300">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button class="w-full bg-orange-200 text-orange-800 font-bold py-3 rounded-lg hover:bg-orange-300 transition-colors">Añadir a la cesta</button>
+                            <button class="w-full bg-orange-600 text-white font-bold py-3 rounded-lg hover:bg-orange-700 transition-colors">Comprar ahora</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Re-add event listeners for new dynamic elements
+            addEventListeners();
+        }
+
+        function addEventListeners() {
+            // Quantity Selector
+            const quantityInput = document.getElementById('quantity-input');
+            if (quantityInput) {
+                document.getElementById('increase-quantity').addEventListener('click', () => {
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                });
+                document.getElementById('decrease-quantity').addEventListener('click', () => {
+                    const currentValue = parseInt(quantityInput.value);
+                    if (currentValue > 1) {
+                        quantityInput.value = currentValue - 1;
+                    }
+                });
+            }
+        }
 
         // Tabs for Description/Reviews
         const tabButtons = document.querySelectorAll('.tab-btn');
@@ -271,7 +245,6 @@
             button.addEventListener('click', () => {
                 const tabId = button.dataset.tab;
                 
-                // Update button styles
                 tabButtons.forEach(btn => {
                     btn.classList.remove('text-orange-600', 'border-orange-600');
                     btn.classList.add('text-gray-500');
@@ -279,7 +252,6 @@
                 button.classList.add('text-orange-600', 'border-orange-600');
                 button.classList.remove('text-gray-500');
 
-                // Show/hide content
                 tabContents.forEach(content => {
                     if (content.id === tabId || content.id === `${tabId}-content`) {
                         content.classList.remove('hidden');
