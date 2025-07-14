@@ -16,10 +16,6 @@
         .selected-thumbnail {
             border-color: #F97316; /* orange-500 */
         }
-        .selected-option {
-            border-color: #F97316;
-            outline: 2px solid #F97316;
-        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -148,6 +144,16 @@
             }
         });
 
+        function transformGoogleDriveLink(url) {
+            const regex = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/;
+            const match = url.match(regex);
+            if (match && match[1]) {
+                const fileId = match[1];
+                return `https://drive.google.com/uc?export=view&id=${fileId}`;
+            }
+            return url; // Return original url if it's not a standard GDrive link
+        }
+
         // --- DATA FETCHING AND DISPLAY ---
         document.addEventListener('DOMContentLoaded', () => {
             const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwnLFgBw30tyAFXc2olw5LLnqQdaxMRiZSpSndWSWhslTkqATarBs8dLImUhcXLK8EmBEs7gUL10oK/pub?output=csv';
@@ -247,30 +253,28 @@
         
         function generateImageGallery(photoData, productName) {
             const galleryContainer = document.getElementById('gallery-container');
-            const imagePrefixes = photoData && photoData.trim() !== '' ? photoData.split(',').map(s => s.trim()) : [];
+            const photoUrls = photoData && photoData.trim() !== '' ? photoData.split(',').map(url => transformGoogleDriveLink(url.trim())) : [];
+            const placeholderUrl = `https://placehold.co/600x600/E0E0E0/757575?text=${encodeURIComponent(productName)}`;
 
-            if (imagePrefixes.length === 0) {
+            if (photoUrls.length === 0) {
                 galleryContainer.innerHTML = `
                     <div class="mb-4">
-                        <img id="main-image" src="https://placehold.co/600x600/E0E0E0/757575?text=${encodeURIComponent(productName)}" alt="Imagen de ${productName}" class="w-full h-auto rounded-lg shadow-md object-cover">
+                        <img id="main-image" src="${placeholderUrl}" alt="Imagen de ${productName}" class="w-full h-auto rounded-lg shadow-md object-cover">
                     </div>`;
                 return;
             }
 
-            const imageBaseUrl = 'https://placehold.co/600x600/E0E0E0/757575?text='; // Placeholder
-            const thumbBaseUrl = 'https://placehold.co/100x100/E0E0E0/757575?text='; // Placeholder
-
-            const mainImageUrl = `${imageBaseUrl}${imagePrefixes[0]}.jpg`;
+            const mainImageUrl = photoUrls[0];
             
-            let thumbnailsHTML = imagePrefixes.map((prefix, index) => {
-                const thumbUrl = `${thumbBaseUrl}${prefix}.jpg`;
+            let thumbnailsHTML = photoUrls.map((url, index) => {
+                const thumbPlaceholder = `https://placehold.co/100x100/E0E0E0/757575?text=${index + 1}`;
                 const isSelected = index === 0 ? 'selected-thumbnail' : '';
-                return `<img src="${thumbUrl}" alt="Miniatura ${index + 1}" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent ${isSelected}" onclick="changeImage(this, '${prefix}')">`;
+                return `<img src="${url}" onerror="this.onerror=null;this.src='${thumbPlaceholder}';" alt="Miniatura ${index + 1}" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent ${isSelected}" onclick="changeImage(this)">`;
             }).join('');
 
             galleryContainer.innerHTML = `
                 <div class="mb-4">
-                    <img id="main-image" src="${mainImageUrl}" alt="Imagen principal de ${productName}" class="w-full h-auto rounded-lg shadow-md object-cover">
+                    <img id="main-image" src="${mainImageUrl}" onerror="this.onerror=null;this.src='${placeholderUrl}';" alt="Imagen principal de ${productName}" class="w-full h-auto rounded-lg shadow-md object-cover">
                 </div>
                 <div class="flex gap-2">
                     ${thumbnailsHTML}
@@ -278,12 +282,18 @@
             `;
         }
 
-        function changeImage(thumbnailElement, prefix) {
-            const imageBaseUrl = 'https://placehold.co/600x600/E0E0E0/757575?text='; // Placeholder
-            const newMainSrc = `${imageBaseUrl}${prefix}.jpg`;
-            document.getElementById('main-image').src = newMainSrc;
+        function changeImage(thumbnailElement) {
+            const mainImage = document.getElementById('main-image');
+            mainImage.src = thumbnailElement.src;
             
-            document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('selected-thumbnail'));
+            mainImage.onerror = function() {
+                this.onerror=null;
+                this.src=`https://placehold.co/600x600/E0E0E0/757575?text=Error`;
+            };
+
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('selected-thumbnail');
+            });
             thumbnailElement.classList.add('selected-thumbnail');
         }
 
