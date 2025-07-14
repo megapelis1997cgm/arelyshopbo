@@ -19,7 +19,7 @@
 
     <!-- Header Section -->
     <header class="bg-white py-3 px-4 md:px-8 shadow-md sticky top-0 z-50">
-        <div class="container mx-auto flex items-center justify-between gap-4">
+        <div class="container mx-auto flex items-center justify-between gap-4 flex-wrap">
             <a href="index.html" class="text-2xl md:text-3xl font-bold text-orange-600">Arelyshop</a>
             <nav class="hidden lg:flex items-center gap-8">
                 <a href="index.html" class="text-gray-600 hover:text-orange-600 font-semibold transition-colors">Inicio</a>
@@ -36,6 +36,14 @@
                 <button id="mobile-menu-button" class="lg:hidden text-gray-600 hover:text-orange-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
                 </button>
+            </div>
+            <div class="w-full lg:flex-grow lg:max-w-xl order-last lg:order-none mt-3 lg:mt-0">
+                <div class="flex">
+                    <input type="text" placeholder="Busca en Arelyshop..." class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <button class="bg-orange-600 text-white px-6 py-2 rounded-r-md hover:bg-orange-700 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </button>
+                </div>
             </div>
         </div>
         <div id="mobile-menu" class="hidden lg:hidden mt-4 px-4">
@@ -91,8 +99,8 @@
                     </div>
                 </div>
             </div>
-            <div id="footer-year" class="mt-10 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
-                <p>&copy; 2025 Arelyshop. Todos los derechos reservados.</p>
+            <div class="mt-10 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+                <p>&copy; <span id="footer-year"></span> Arelyshop. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
@@ -100,12 +108,13 @@
 
     <script>
         // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
         });
 
+        // Set current year in footer
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+        
         // Fetch and display products
         document.addEventListener('DOMContentLoaded', () => {
             const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwnLFgBw30tyAFXc2olw5LLnqQdaxMRiZSpSndWSWhslTkqATarBs8dLImUhcXLK8EmBEs7gUL10oK/pub?output=csv';
