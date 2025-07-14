@@ -13,6 +13,9 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+        .selected-thumbnail {
+            border-color: #F97316; /* orange-500 */
+        }
         .selected-option {
             border-color: #F97316;
             outline: 2px solid #F97316;
@@ -23,7 +26,7 @@
 
     <!-- Header Section -->
     <header class="bg-white py-3 px-4 md:px-8 shadow-md sticky top-0 z-50">
-        <div class="container mx-auto flex items-center justify-between gap-4">
+        <div class="container mx-auto flex items-center justify-between gap-4 flex-wrap">
             <a href="index.html" class="text-2xl md:text-3xl font-bold text-orange-600">Arelyshop</a>
             <nav class="hidden lg:flex items-center gap-8">
                 <a href="index.html" class="text-gray-600 hover:text-orange-600 font-semibold transition-colors">Inicio</a>
@@ -40,6 +43,14 @@
                 <button id="mobile-menu-button" class="lg:hidden text-gray-600 hover:text-orange-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
                 </button>
+            </div>
+            <div class="w-full lg:flex-grow lg:max-w-xl order-last lg:order-none mt-3 lg:mt-0">
+                <div class="flex">
+                    <input type="text" placeholder="Busca en Arelyshop..." class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <button class="bg-orange-600 text-white px-6 py-2 rounded-r-md hover:bg-orange-700 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </button>
+                </div>
             </div>
         </div>
         <div id="mobile-menu" class="hidden lg:hidden mt-4 px-4">
@@ -59,7 +70,7 @@
             <p class="text-center text-gray-500">Cargando detalles del producto...</p>
         </div>
 
-        <div id="reviews" class="bg-white rounded-lg shadow-lg p-4 md:p-8 mt-8">
+        <div class="bg-white rounded-lg shadow-lg p-4 md:p-8 mt-8">
             <div class="border-b border-gray-200">
                 <nav class="flex gap-6" id="tab-nav">
                     <button data-tab="description" class="tab-btn py-4 px-1 text-orange-600 border-b-2 border-orange-600 font-semibold">Descripción</button>
@@ -67,11 +78,11 @@
                 </nav>
             </div>
             <div class="py-6">
-                <div id="description" class="tab-content text-gray-700 leading-relaxed">
-                    <p class="mb-4">Aquí va la descripción detallada del producto.</p>
+                <div id="description-content" class="tab-content text-gray-700 leading-relaxed">
+                    <p>Cargando descripción...</p>
                 </div>
                 <div id="reviews-content" class="tab-content hidden">
-                    <p>Aquí se mostrarían las opiniones de los clientes.</p>
+                    <p>Aún no hay opiniones para este producto.</p>
                 </div>
             </div>
         </div>
@@ -103,8 +114,8 @@
                     </div>
                 </div>
             </div>
-            <div id="footer-year" class="mt-10 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
-                <p>&copy; 2025 Arelyshop. Todos los derechos reservados.</p>
+            <div class="mt-10 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+                <p>&copy; <span id="footer-year"></span> Arelyshop. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
@@ -112,12 +123,14 @@
 
     <script>
         // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
         });
+        
+        // Set current year in footer
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
 
+        // --- DATA FETCHING AND DISPLAY ---
         document.addEventListener('DOMContentLoaded', () => {
             const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwnLFgBw30tyAFXc2olw5LLnqQdaxMRiZSpSndWSWhslTkqATarBs8dLImUhcXLK8EmBEs7gUL10oK/pub?output=csv';
             const container = document.getElementById('product-details-container');
@@ -165,16 +178,15 @@
             const name = product.nombre || 'Producto sin nombre';
             const price = product.precio || 'N/A';
             const wholesalePrice = product.mayoreo || 'N/A';
-            const imageUrl = `https://placehold.co/600x600/E0E0E0/757575?text=${encodeURIComponent(name)}`;
+            const description = product.description || 'No hay descripción disponible para este producto.';
+            const photoData = product.fotos || '';
 
             document.title = `${name} - Arelyshop`;
 
             container.innerHTML = `
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div>
-                        <div class="mb-4">
-                            <img id="main-image" src="${imageUrl}" alt="Imagen de ${name}" class="w-full h-auto rounded-lg shadow-md object-cover">
-                        </div>
+                    <div id="gallery-container">
+                        <!-- Gallery will be generated by JS -->
                     </div>
                     <div>
                         <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">${name}</h1>
@@ -207,7 +219,56 @@
                     </div>
                 </div>
             `;
+            
+            document.getElementById('description-content').innerHTML = `<p>${description.replace(/\n/g, '</p><p>')}</p>`;
+            generateImageGallery(photoData, name);
             addEventListeners();
+        }
+        
+        function generateImageGallery(photoData, productName) {
+            const galleryContainer = document.getElementById('gallery-container');
+            const imagePrefixes = photoData && photoData.trim() !== '' ? photoData.split(',').map(s => s.trim()) : [];
+
+            if (imagePrefixes.length === 0) {
+                galleryContainer.innerHTML = `
+                    <div class="mb-4">
+                        <img id="main-image" src="https://placehold.co/600x600/E0E0E0/757575?text=${encodeURIComponent(productName)}" alt="Imagen de ${productName}" class="w-full h-auto rounded-lg shadow-md object-cover">
+                    </div>`;
+                return;
+            }
+
+            // !!! IMPORTANTE: REEMPLAZA ESTA URL BASE !!!
+            // Esta debe ser la URL pública de tu carpeta de Google Drive.
+            // He usado un marcador de posición que muestra el nombre del archivo esperado.
+            const imageBaseUrl = 'https://placehold.co/600x600/E0E0E0/757575?text='; // <-- CAMBIA ESTO
+            const thumbBaseUrl = 'https://placehold.co/100x100/E0E0E0/757575?text='; // <-- CAMBIA ESTO
+
+            const mainImageUrl = `${imageBaseUrl}${imagePrefixes[0]}.jpg`;
+            
+            let thumbnailsHTML = imagePrefixes.map((prefix, index) => {
+                const thumbUrl = `${thumbBaseUrl}${prefix}.jpg`;
+                const isSelected = index === 0 ? 'selected-thumbnail' : '';
+                return `<img src="${thumbUrl}" alt="Miniatura ${index + 1}" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent ${isSelected}" onclick="changeImage(this, '${prefix}')">`;
+            }).join('');
+
+            galleryContainer.innerHTML = `
+                <div class="mb-4">
+                    <img id="main-image" src="${mainImageUrl}" alt="Imagen principal de ${productName}" class="w-full h-auto rounded-lg shadow-md object-cover">
+                </div>
+                <div class="flex gap-2">
+                    ${thumbnailsHTML}
+                </div>
+            `;
+        }
+
+        function changeImage(thumbnailElement, prefix) {
+            // !!! IMPORTANTE: REEMPLAZA ESTA URL BASE !!!
+            const imageBaseUrl = 'https://placehold.co/600x600/E0E0E0/757575?text='; // <-- CAMBIA ESTO
+            const newMainSrc = `${imageBaseUrl}${prefix}.jpg`;
+            document.getElementById('main-image').src = newMainSrc;
+            
+            document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('selected-thumbnail'));
+            thumbnailElement.classList.add('selected-thumbnail');
         }
 
         function addEventListeners() {
@@ -230,7 +291,7 @@
         const tabContents = document.querySelectorAll('.tab-content');
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                const tabId = button.dataset.tab;
+                const tabId = button.dataset.tab + '-content';
                 tabButtons.forEach(btn => {
                     btn.classList.remove('text-orange-600', 'border-orange-600');
                     btn.classList.add('text-gray-500');
@@ -238,10 +299,7 @@
                 button.classList.add('text-orange-600', 'border-orange-600');
                 button.classList.remove('text-gray-500');
                 tabContents.forEach(content => {
-                    content.classList.add('hidden');
-                    if (content.id === tabId || content.id === `${tabId}-content`) {
-                        content.classList.remove('hidden');
-                    }
+                    content.id === tabId ? content.classList.remove('hidden') : content.classList.add('hidden');
                 });
             });
         });
