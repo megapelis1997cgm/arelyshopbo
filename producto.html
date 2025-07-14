@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Producto - AliClon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style for selected thumbnail and options */
+        .selected-thumbnail {
+            border-color: #F97316; /* orange-500 */
+        }
+        .selected-option {
+            border-color: #F97316;
+            outline: 2px solid #F97316;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Header Section (Same as index.html for consistency) -->
+    <header class="bg-white py-3 px-4 md:px-8 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex items-center justify-between gap-4">
+            <!-- Logo -->
+            <a href="index.html" class="text-2xl md:text-3xl font-bold text-orange-600">
+                AliClon
+            </a>
+
+            <!-- Search Bar -->
+            <div class="flex-grow max-w-2xl hidden md:flex">
+                <input type="text" placeholder="Busca de todo: smart watch, dron, ropa..." class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500">
+                <button class="bg-orange-600 text-white px-6 py-2 rounded-r-md hover:bg-orange-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </button>
+            </div>
+
+            <!-- Header Icons -->
+            <div class="flex items-center gap-4 md:gap-6">
+                <a href="#" class="text-gray-600 hover:text-orange-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-orange-600 transition-colors relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    <span class="absolute -top-2 -right-2 bg-orange-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white rounded-lg shadow-lg p-4 md:p-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Product Image Gallery -->
+                <div>
+                    <div class="mb-4">
+                        <img id="main-image" src="https://placehold.co/600x600/E0E0E0/757575?text=Producto" alt="Imagen principal del producto" class="w-full h-auto rounded-lg shadow-md object-cover">
+                    </div>
+                    <div class="flex gap-2">
+                        <img src="https://placehold.co/100x100/E0E0E0/757575?text=Vista+1" alt="Miniatura 1" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent selected-thumbnail" onclick="changeImage(this.src)">
+                        <img src="https://placehold.co/100x100/D1D1D1/757575?text=Vista+2" alt="Miniatura 2" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent" onclick="changeImage(this.src)">
+                        <img src="https://placehold.co/100x100/C2C2C2/757575?text=Vista+3" alt="Miniatura 3" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent" onclick="changeImage(this.src)">
+                        <img src="https://placehold.co/100x100/B3B3B3/757575?text=Vista+4" alt="Miniatura 4" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent" onclick="changeImage(this.src)">
+                    </div>
+                </div>
+
+                <!-- Product Details and Actions -->
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Auriculares Inalámbricos con Cancelación de Ruido y Audio Espacial</h1>
+                    <div class="flex items-center mb-4">
+                        <span class="text-yellow-400 text-lg">★★★★☆</span>
+                        <a href="#reviews" class="text-sm text-gray-500 ml-2 hover:text-orange-600">1,234 valoraciones</a>
+                        <span class="text-gray-300 mx-2">|</span>
+                        <span class="text-sm text-gray-500">2,587 vendidos</span>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <p class="text-3xl font-bold text-orange-600">$49.99</p>
+                        <p class="text-md text-gray-500 line-through">Precio anterior: $99.99 (50% de descuento)</p>
+                    </div>
+
+                    <!-- Product Options: Color -->
+                    <div class="mb-6">
+                        <h3 class="text-md font-semibold text-gray-700 mb-2">Color: <span id="selected-color">Negro</span></h3>
+                        <div class="flex gap-2" id="color-options">
+                            <button data-value="Negro" class="option-btn color-option h-8 w-8 rounded-full bg-black border-2 selected-option"></button>
+                            <button data-value="Blanco" class="option-btn color-option h-8 w-8 rounded-full bg-white border-2"></button>
+                            <button data-value="Azul" class="option-btn color-option h-8 w-8 rounded-full bg-blue-700 border-2"></button>
+                            <button data-value="Rojo" class="option-btn color-option h-8 w-8 rounded-full bg-red-600 border-2"></button>
+                        </div>
+                    </div>
+
+                    <!-- Product Options: Size -->
+                    <div class="mb-6">
+                        <h3 class="text-md font-semibold text-gray-700 mb-2">Almacenamiento: <span id="selected-size">128GB</span></h3>
+                        <div class="flex gap-2" id="size-options">
+                            <button data-value="128GB" class="option-btn size-option px-4 py-2 border-2 rounded-md selected-option">128GB</button>
+                            <button data-value="256GB" class="option-btn size-option px-4 py-2 border-2 rounded-md">256GB</button>
+                            <button data-value="512GB" class="option-btn size-option px-4 py-2 border-2 rounded-md">512GB</button>
+                        </div>
+                    </div>
+
+                    <!-- Quantity Selector -->
+                    <div class="mb-6">
+                         <h3 class="text-md font-semibold text-gray-700 mb-2">Cantidad</h3>
+                        <div class="flex items-center">
+                            <button id="decrease-quantity" class="bg-gray-200 text-gray-700 h-10 w-10 rounded-l-md font-bold text-xl hover:bg-gray-300">-</button>
+                            <input id="quantity-input" type="text" value="1" class="w-16 h-10 text-center border-t border-b border-gray-200 focus:outline-none">
+                            <button id="increase-quantity" class="bg-gray-200 text-gray-700 h-10 w-10 rounded-r-md font-bold text-xl hover:bg-gray-300">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button class="w-full bg-orange-200 text-orange-800 font-bold py-3 rounded-lg hover:bg-orange-300 transition-colors">Añadir a la cesta</button>
+                        <button class="w-full bg-orange-600 text-white font-bold py-3 rounded-lg hover:bg-orange-700 transition-colors">Comprar ahora</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description and Reviews Section -->
+        <div id="reviews" class="bg-white rounded-lg shadow-lg p-4 md:p-8 mt-8">
+            <div class="border-b border-gray-200">
+                <nav class="flex gap-6" id="tab-nav">
+                    <button data-tab="description" class="tab-btn py-4 px-1 text-orange-600 border-b-2 border-orange-600 font-semibold">Descripción</button>
+                    <button data-tab="reviews" class="tab-btn py-4 px-1 text-gray-500 font-semibold">Opiniones (1,234)</button>
+                </nav>
+            </div>
+            <div class="py-6">
+                <!-- Description Content -->
+                <div id="description" class="tab-content text-gray-700 leading-relaxed">
+                    <p class="mb-4">Disfruta de una experiencia de audio inmersiva con nuestros auriculares inalámbricos de última generación. Diseñados para la comodidad y un rendimiento excepcional, son el compañero perfecto para tu música, podcasts y llamadas.</p>
+                    <h4 class="font-bold text-lg mb-2">Características Principales:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Cancelación de ruido activa (ANC) para bloquear distracciones.</li>
+                        <li>Audio espacial con seguimiento dinámico de la cabeza.</li>
+                        <li>Hasta 30 horas de autonomía con el estuche de carga.</li>
+                        <li>Resistentes al sudor y al agua (IPX4).</li>
+                        <li>Conexión Bluetooth 5.2 de baja latencia.</li>
+                    </ul>
+                     <h4 class="font-bold text-lg mb-2">Especificaciones Técnicas:</h4>
+                     <ul class="list-disc list-inside">
+                        <li>Peso: 5.4g (cada auricular), 45.6g (estuche)</li>
+                        <li>Driver: Dinámico de 11mm</li>
+                        <li>Codecs: AAC, SBC</li>
+                        <li>Puerto de carga: USB-C</li>
+                    </ul>
+                </div>
+                <!-- Reviews Content -->
+                <div id="reviews-content" class="tab-content hidden">
+                    <div class="space-y-6">
+                        <!-- Review 1 -->
+                        <div class="border-b border-gray-200 pb-6">
+                            <div class="flex items-center mb-2">
+                                <img src="https://placehold.co/40x40/FFC107/FFFFFF?text=J" alt="Avatar" class="rounded-full mr-3">
+                                <div>
+                                    <p class="font-semibold">Juan Pérez</p>
+                                    <p class="text-sm text-gray-500">Comprado el 01 de Julio, 2025</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <span class="text-yellow-400">★★★★★</span>
+                                <span class="text-sm font-semibold ml-2">¡Increíbles!</span>
+                            </div>
+                            <p class="text-gray-700">La cancelación de ruido es la mejor que he probado. La batería dura muchísimo y son súper cómodos. Valen cada centavo.</p>
+                        </div>
+                        <!-- Review 2 -->
+                         <div class="border-b border-gray-200 pb-6">
+                            <div class="flex items-center mb-2">
+                                <img src="https://placehold.co/40x40/4CAF50/FFFFFF?text=M" alt="Avatar" class="rounded-full mr-3">
+                                <div>
+                                    <p class="font-semibold">María García</p>
+                                    <p class="text-sm text-gray-500">Comprado el 28 de Junio, 2025</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <span class="text-yellow-400">★★★★☆</span>
+                                <span class="text-sm font-semibold ml-2">Muy buenos, pero...</span>
+                            </div>
+                            <p class="text-gray-700">El sonido es espectacular y se conectan al instante. Les doy 4 estrellas porque el color blanco se ensucia con facilidad, pero por lo demás, perfectos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-8 py-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Atención al Cliente</h4>
+                    <ul><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Centro de Ayuda</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Disputas y Reportes</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Políticas y Reglas</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Contactar</a></li></ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Compra con Nosotros</h4>
+                    <ul><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Realizar un Pedido</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Métodos de Pago</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Guía de Envíos</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Protección del Comprador</a></li></ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Colabora con Nosotros</h4>
+                    <ul><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Vende en AliClon</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Programa de Afiliados</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Blog para Vendedores</a></li></ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Síguenos</h4>
+                    <div class="flex gap-4">
+                        <a href="#" class="hover:text-orange-400 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v2.385z"/></svg></a>
+                        <a href="#" class="hover:text-orange-400 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.634 4.212 3.793 4.649-.65.177-1.354.23-2.06.088.62 1.924 2.413 3.32 4.545 3.359-1.858 1.455-4.188 2.32-6.72 2.32-.438 0-.87-.026-1.295-.076 2.405 1.536 5.273 2.433 8.36 2.433 9.882 0 15.36-8.162 15.36-15.36 0-.234 0-.466-.016-.696A10.955 10.955 0 0024 4.557z"/></svg></a>
+                        <a href="#" class="hover:text-orange-400 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.802C9.042 3.965 8.71 3.977 7.433 4.03c-2.822.128-3.962 1.262-4.09 4.09-.052 1.277-.064 1.636-.064 4.87s.012 3.594.064 4.87c.128 2.821 1.268 3.962 4.09 4.09 1.277.052 1.636.064 4.87.064s3.594-.012 4.87-.064c2.821-.128 3.962-1.268 4.09-4.09.052-1.277.064-1.636.064-4.87s-.012-3.594-.064-4.87c-.128-2.822-1.268-3.962-4.09-4.09C15.29 3.977 14.96 3.965 12 3.965zm0 3.225c-2.401 0-4.35 1.95-4.35 4.35s1.949 4.35 4.35 4.35 4.35-1.95 4.35-4.35-1.949-4.35-4.35-4.35zm0 7.102c-1.523 0-2.75-1.227-2.75-2.75s1.227-2.75 2.75-2.75 2.75 1.227 2.75 2.75-1.227 2.75-2.75 2.75zm4.939-7.733c-.596 0-1.079.483-1.079 1.079s.483 1.079 1.079 1.079 1.079-.483 1.079-1.079-.483-1.079-1.079-1.079z"/></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+                <p>&copy; 2024 AliClon. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Image Gallery
+        function changeImage(src) {
+            document.getElementById('main-image').src = src.replace('100x100', '600x600');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach(thumb => {
+                thumb.classList.remove('selected-thumbnail');
+                if (thumb.src === src) {
+                    thumb.classList.add('selected-thumbnail');
+                }
+            });
+        }
+
+        // Option Selector
+        function handleOptionSelection(optionType) {
+            const options = document.querySelectorAll(`.${optionType}-option`);
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    options.forEach(opt => opt.classList.remove('selected-option'));
+                    option.classList.add('selected-option');
+                    document.getElementById(`selected-${optionType}`).innerText = option.dataset.value;
+                });
+            });
+        }
+
+        handleOptionSelection('color');
+        handleOptionSelection('size');
+
+        // Quantity Selector
+        const quantityInput = document.getElementById('quantity-input');
+        document.getElementById('increase-quantity').addEventListener('click', () => {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        });
+        document.getElementById('decrease-quantity').addEventListener('click', () => {
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
+
+        // Tabs for Description/Reviews
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.dataset.tab;
+                
+                // Update button styles
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('text-orange-600', 'border-orange-600');
+                    btn.classList.add('text-gray-500');
+                });
+                button.classList.add('text-orange-600', 'border-orange-600');
+                button.classList.remove('text-gray-500');
+
+                // Show/hide content
+                tabContents.forEach(content => {
+                    if (content.id === tabId || content.id === `${tabId}-content`) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
