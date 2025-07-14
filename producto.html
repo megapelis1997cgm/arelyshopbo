@@ -16,6 +16,14 @@
         .selected-thumbnail {
             border-color: #F97316; /* orange-500 */
         }
+        /* Hide scrollbar for clean look */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -97,23 +105,23 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div>
                     <h4 class="font-bold text-lg mb-4">Atención al Cliente</h4>
-                    <ul><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Centro de Ayuda</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Políticas y Reglas</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Contactar</a></li></ul>
+                    <ul><li class="mb-2"><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Centro de Ayuda</a></li><li class="mb-2"><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Políticas y Reglas</a></li><li class="mb-2"><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Contactar</a></li></ul>
                 </div>
                 <div>
                     <h4 class="font-bold text-lg mb-4">Compra con Nosotros</h4>
-                    <ul><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Realizar un Pedido</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Métodos de Pago</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Protección del Comprador</a></li></ul>
+                    <ul><li class="mb-2"><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Realizar un Pedido</a></li><li class="mb-2"><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Métodos de Pago</a></li><li class="mb-2"><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Protección del Comprador</a></li></ul>
                 </div>
                 <div>
                     <h4 class="font-bold text-lg mb-4">Colabora con Nosotros</h4>
-                    <ul><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Vende en Arelyshop</a></li><li class="mb-2"><a href="#" class="hover:text-orange-400 transition-colors">Programa de Afiliados</a></li></ul>
+                    <ul><li class="mb-2"><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Vende en Arelyshop</a></li><li class="mb-2"><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Programa de Afiliados</a></li></ul>
                 </div>
                 <div>
                     <h4 class="font-bold text-lg mb-4">Síguenos</h4>
                     <div class="flex gap-5 text-xl">
-                        <a href="https://www.facebook.com/arelyshopbo" target="_blank" class="hover:text-orange-400 transition-colors" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="https://www.tiktok.com/@arelyshopbo" target="_blank" class="hover:text-orange-400 transition-colors" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                        <a href="https://www.instagram.com/arelyshopbo" target="_blank" class="hover:text-orange-400 transition-colors" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://api.whatsapp.com/send/?phone=59167500044&text&type=phone_number&app_absent=0" target="_blank" class="hover:text-orange-400 transition-colors" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://www.facebook.com/arelyshopbo" target="_blank" class="text-gray-300 hover:text-orange-400 transition-colors" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.tiktok.com/@arelyshopbo" target="_blank" class="text-gray-300 hover:text-orange-400 transition-colors" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="https://www.instagram.com/arelyshopbo" target="_blank" class="text-gray-300 hover:text-orange-400 transition-colors" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://api.whatsapp.com/send/?phone=59167500044&text&type=phone_number&app_absent=0" target="_blank" class="text-gray-300 hover:text-orange-400 transition-colors" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
@@ -258,7 +266,7 @@
             if (photoUrls.length === 0) {
                 galleryContainer.innerHTML = `
                     <div class="mb-4">
-                        <img id="main-image" src="${placeholderUrl}" alt="Imagen de ${productName}" class="w-full h-auto rounded-lg shadow-md object-cover">
+                        <img id="main-image" src="${placeholderUrl}" alt="Imagen de ${productName}" class="w-full aspect-square object-cover rounded-lg shadow-md">
                     </div>`;
                 return;
             }
@@ -273,12 +281,18 @@
 
             galleryContainer.innerHTML = `
                 <div class="mb-4">
-                    <img id="main-image" src="${mainImageUrl}" onerror="this.onerror=null;this.src='${placeholderUrl}';" alt="Imagen principal de ${productName}" class="w-full h-auto rounded-lg shadow-md object-cover">
+                    <img id="main-image" src="${mainImageUrl}" onerror="this.onerror=null;this.src='${placeholderUrl}';" alt="Imagen principal de ${productName}" class="w-full aspect-square object-cover rounded-lg shadow-md">
                 </div>
-                <div class="flex gap-2">
-                    ${thumbnailsHTML}
+                <div class="relative">
+                    <button id="prev-btn" class="absolute -left-3 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-1 shadow-md hidden md:block z-10 text-xl">&lt;</button>
+                    <div id="thumbnail-wrapper" class="overflow-x-auto whitespace-nowrap scroll-smooth scrollbar-hide flex gap-2">
+                        ${thumbnailsHTML}
+                    </div>
+                    <button id="next-btn" class="absolute -right-3 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-1 shadow-md hidden md:block z-10 text-xl">&gt;</button>
                 </div>
             `;
+            
+            setupGalleryNavigation();
         }
 
         function changeImage(thumbnailElement) {
@@ -294,6 +308,48 @@
                 thumb.classList.remove('selected-thumbnail');
             });
             thumbnailElement.classList.add('selected-thumbnail');
+        }
+
+        function setupGalleryNavigation() {
+            const wrapper = document.getElementById('thumbnail-wrapper');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            if(!wrapper || !prevBtn || !nextBtn) return;
+
+            prevBtn.addEventListener('click', () => {
+                wrapper.scrollBy({ left: -100, behavior: 'smooth' });
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                wrapper.scrollBy({ left: 100, behavior: 'smooth' });
+            });
+
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            wrapper.addEventListener('mousedown', (e) => {
+                isDown = true;
+                wrapper.classList.add('cursor-grabbing');
+                startX = e.pageX - wrapper.offsetLeft;
+                scrollLeft = wrapper.scrollLeft;
+            });
+            wrapper.addEventListener('mouseleave', () => {
+                isDown = false;
+                wrapper.classList.remove('cursor-grabbing');
+            });
+            wrapper.addEventListener('mouseup', () => {
+                isDown = false;
+                wrapper.classList.remove('cursor-grabbing');
+            });
+            wrapper.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - wrapper.offsetLeft;
+                const walk = (x - startX) * 2; //scroll-fast
+                wrapper.scrollLeft = scrollLeft - walk;
+            });
         }
 
         function addEventListeners() {
