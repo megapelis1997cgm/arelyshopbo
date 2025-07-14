@@ -22,16 +22,15 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis;
         }
         .truncate-fade::after {
             content: '';
             position: absolute;
             bottom: 0;
             right: 0;
-            width: 40%;
+            width: 70%;
             height: 1.5rem;
-            background: linear-gradient(to right, rgba(255, 255, 255, 0), white 80%);
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), white 50%);
         }
     </style>
 </head>
@@ -39,41 +38,48 @@
 
     <!-- Header Section -->
     <header class="bg-white py-3 px-4 md:px-8 shadow-md sticky top-0 z-50">
-        <div class="container mx-auto flex items-center justify-between gap-4 flex-wrap">
-            <a href="index.html" class="text-2xl md:text-3xl font-bold text-orange-600">Arelyshop</a>
-            <nav class="hidden lg:flex items-center gap-8">
-                <a href="index.html" class="text-gray-600 hover:text-orange-600 font-semibold transition-colors">Inicio</a>
-                <a href="colecciones.html" class="text-gray-600 hover:text-orange-600 font-semibold transition-colors">Ver Catálogo</a>
-                <a href="https://api.whatsapp.com/send/?phone=59167500044&text&type=phone_number&app_absent=0" target="_blank" class="text-green-500 hover:text-green-600 text-2xl transition-colors" aria-label="WhatsApp">
-                    <i class="fa-brands fa-whatsapp"></i>
-                </a>
-            </nav>
-            <div class="flex items-center gap-4">
-                <a href="#" class="text-gray-600 hover:text-orange-600 transition-colors relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                    <span class="absolute -top-2 -right-2 bg-orange-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
-                </a>
-                <button id="mobile-menu-button" class="lg:hidden text-gray-600 hover:text-orange-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-                </button>
-            </div>
-            <form id="search-form" class="w-full lg:flex-grow lg:max-w-xl order-last lg:order-none mt-3 lg:mt-0">
-                <div class="flex">
-                    <input id="search-input" type="text" placeholder="Busca en Arelyshop..." class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500">
-                    <button type="submit" class="bg-orange-600 text-white px-6 py-2 rounded-r-md hover:bg-orange-700 transition-colors">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="container mx-auto">
+            <!-- Top Row -->
+            <div class="flex items-center justify-between gap-4">
+                <a href="index.html" class="text-2xl md:text-3xl font-bold text-orange-600">Arelyshop</a>
+                <nav class="hidden lg:flex items-center gap-8">
+                    <a href="index.html" class="text-gray-600 hover:text-orange-600 font-semibold transition-colors">Inicio</a>
+                    <a href="colecciones.html" class="text-gray-600 hover:text-orange-600 font-semibold transition-colors">Ver Catálogo</a>
+                    <a href="https://api.whatsapp.com/send/?phone=59167500044&text&type=phone_number&app_absent=0" target="_blank" class="text-green-500 hover:text-green-600 text-2xl transition-colors" aria-label="WhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="text-gray-600 hover:text-orange-600 transition-colors relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        <span class="absolute -top-2 -right-2 bg-orange-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </a>
+                    <button id="mobile-menu-button" class="lg:hidden text-gray-600 hover:text-orange-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
                     </button>
                 </div>
-            </form>
-        </div>
-        <div id="mobile-menu" class="hidden lg:hidden mt-4 px-4">
-            <nav class="flex flex-col gap-4">
-                <a href="index.html" class="text-gray-700 hover:bg-orange-100 p-2 rounded-md font-semibold">Inicio</a>
-                <a href="colecciones.html" class="text-gray-700 hover:bg-orange-100 p-2 rounded-md font-semibold">Ver Catálogo</a>
-                <a href="https://api.whatsapp.com/send/?phone=59167500044&text&type=phone_number&app_absent=0" target="_blank" class="flex items-center gap-2 text-gray-700 hover:bg-orange-100 p-2 rounded-md font-semibold">
-                    <i class="fa-brands fa-whatsapp text-green-500 text-lg"></i> WhatsApp
-                </a>
-            </nav>
+            </div>
+            <!-- Search Bar Row -->
+            <div class="w-full mt-3">
+                 <form id="search-form" class="w-full max-w-2xl mx-auto">
+                    <div class="flex">
+                        <input id="search-input" type="text" placeholder="Busca en Arelyshop..." class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <button type="submit" class="bg-orange-600 text-white px-6 py-2 rounded-r-md hover:bg-orange-700 transition-colors">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                 </form>
+            </div>
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden lg:hidden mt-4">
+                <nav class="flex flex-col gap-4">
+                    <a href="index.html" class="text-gray-700 hover:bg-orange-100 p-2 rounded-md font-semibold">Inicio</a>
+                    <a href="colecciones.html" class="text-gray-700 hover:bg-orange-100 p-2 rounded-md font-semibold">Ver Catálogo</a>
+                    <a href="https://api.whatsapp.com/send/?phone=59167500044&text&type=phone_number&app_absent=0" target="_blank" class="flex items-center gap-2 text-gray-700 hover:bg-orange-100 p-2 rounded-md font-semibold">
+                        <i class="fa-brands fa-whatsapp text-green-500 text-lg"></i> WhatsApp
+                    </a>
+                </nav>
+            </div>
         </div>
     </header>
 
