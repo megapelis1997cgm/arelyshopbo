@@ -263,7 +263,6 @@
             
             document.getElementById('description-content').innerHTML = `<p>${description.replace(/\n/g, '</p><p>')}</p>`;
             generateImageGallery(photoUrls, name);
-            addEventListeners();
         }
         
         function generateImageGallery(photoUrls, productName) {
@@ -283,7 +282,7 @@
             let thumbnailsHTML = photoUrls.map((url, index) => {
                 const thumbPlaceholder = `https://placehold.co/100x100/E0E0E0/757575?text=${index + 1}`;
                 const isSelected = index === 0 ? 'selected-thumbnail' : '';
-                return `<img src="${url}" onerror="this.onerror=null;this.src='${thumbPlaceholder}';" alt="Miniatura ${index + 1}" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent ${isSelected}" onclick="changeImage(this, ${index})">`;
+                return `<img src="${url}" onerror="this.onerror=null;this.src='${thumbPlaceholder}';" alt="Miniatura ${index + 1}" class="thumbnail w-1/5 cursor-pointer rounded-md border-2 border-transparent ${isSelected}" data-index="${index}">`;
             }).join('');
 
             galleryContainer.innerHTML = `
@@ -302,23 +301,6 @@
             setupGalleryNavigation(photoUrls);
         }
 
-        let currentIndex = 0;
-        function changeImage(thumbnailElement, index) {
-            currentIndex = index;
-            const mainImage = document.getElementById('main-image');
-            mainImage.src = thumbnailElement.src;
-            
-            mainImage.onerror = function() {
-                this.onerror=null;
-                this.src=`https://placehold.co/600x600/E0E0E0/757575?text=Error`;
-            };
-
-            document.querySelectorAll('.thumbnail').forEach(thumb => {
-                thumb.classList.remove('selected-thumbnail');
-            });
-            thumbnailElement.classList.add('selected-thumbnail');
-        }
-
         function setupGalleryNavigation(photoUrls) {
             const mainImage = document.getElementById('main-image');
             const prevBtn = document.getElementById('gallery-prev-btn');
@@ -326,8 +308,12 @@
             const thumbWrapper = document.getElementById('thumbnail-wrapper');
             
             if(!mainImage || !prevBtn || !nextBtn || !thumbWrapper) return;
+            
+            let currentIndex = 0;
 
-            const updateGallery = () => {
+            const updateGallery = (newIndex) => {
+                if (newIndex < 0 || newIndex >= photoUrls.length) return;
+                currentIndex = newIndex;
                 mainImage.src = photoUrls[currentIndex];
                 const thumbnails = document.querySelectorAll('.thumbnail');
                 thumbnails.forEach((thumb, index) => {
@@ -337,16 +323,14 @@
             };
 
             prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex > 0) ? currentIndex - 1 : photoUrls.length - 1;
-                updateGallery();
+                updateGallery((currentIndex > 0) ? currentIndex - 1 : photoUrls.length - 1);
             });
             
             nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex < photoUrls.length - 1) ? currentIndex + 1 : 0;
-                updateGallery();
+                updateGallery((currentIndex < photoUrls.length - 1) ? currentIndex + 1 : 0);
             });
 
-            // Swipe/Drag functionality for main image
+            // Swipe/Drag for Main Image
             let isDown = false;
             let startX = 0;
 
@@ -361,25 +345,42 @@
             mainImage.addEventListener('mouseup', (e) => { isDown = false; handleSwipe(e.pageX); });
             mainImage.addEventListener('mouseleave', () => { isDown = false; });
 
-            // Drag/Swipe for thumbnails
+            // Drag/Swipe for Thumbnails
             let isThumbDown = false;
             let thumbStartX;
             let thumbScrollLeft;
+            let hasDragged = false;
 
             thumbWrapper.addEventListener('mousedown', (e) => {
                 isThumbDown = true;
+                hasDragged = false;
                 thumbWrapper.classList.add('cursor-grabbing');
                 thumbStartX = e.pageX - thumbWrapper.offsetLeft;
                 thumbScrollLeft = thumbWrapper.scrollLeft;
             });
-            thumbWrapper.addEventListener('mouseleave', () => { isThumbDown = false; thumbWrapper.classList.remove('cursor-grabbing'); });
-            thumbWrapper.addEventListener('mouseup', () => { isThumbDown = false; thumbWrapper.classList.remove('cursor-grabbing'); });
             thumbWrapper.addEventListener('mousemove', (e) => {
                 if(!isThumbDown) return;
                 e.preventDefault();
                 const x = e.pageX - thumbWrapper.offsetLeft;
-                const walk = (x - thumbStartX) * 2;
+                const walk = x - thumbStartX;
+                if (Math.abs(walk) > 5) { // Threshold to confirm drag
+                    hasDragged = true;
+                }
                 thumbWrapper.scrollLeft = thumbScrollLeft - walk;
+            });
+            window.addEventListener('mouseup', () => {
+                isThumbDown = false;
+                thumbWrapper.classList.remove('cursor-grabbing');
+            });
+            thumbWrapper.addEventListener('click', (e) => {
+                if(hasDragged) {
+                    e.preventDefault();
+                    return;
+                }
+                const clickedThumb = e.target.closest('.thumbnail');
+                if (clickedThumb) {
+                    updateGallery(parseInt(clickedThumb.dataset.index, 10));
+                }
             });
         }
 
