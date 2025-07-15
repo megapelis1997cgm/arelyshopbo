@@ -330,53 +330,17 @@
                 updateGallery((currentIndex < photoUrls.length - 1) ? currentIndex + 1 : 0);
             });
 
-            // Swipe/Drag for Main Image
-            let isDown = false;
-            let startX = 0;
-
-            const handleSwipe = (endX) => {
-                if (endX < startX - 50) { nextBtn.click(); }
-                if (endX > startX + 50) { prevBtn.click(); }
-            };
-
-            mainImage.addEventListener('touchstart', (e) => { startX = e.changedTouches[0].screenX; }, { passive: true });
-            mainImage.addEventListener('touchend', (e) => { handleSwipe(e.changedTouches[0].screenX); });
-            mainImage.addEventListener('mousedown', (e) => { isDown = true; startX = e.pageX; e.preventDefault(); });
-            mainImage.addEventListener('mouseup', (e) => { isDown = false; handleSwipe(e.pageX); });
-            mainImage.addEventListener('mouseleave', () => { isDown = false; });
-
-            // Drag/Swipe for Thumbnails
-            let isThumbDown = false;
-            let thumbStartX;
-            let thumbScrollLeft;
-            let hasDragged = false;
-
-            thumbWrapper.addEventListener('mousedown', (e) => {
-                isThumbDown = true;
-                hasDragged = false;
-                thumbWrapper.classList.add('cursor-grabbing');
-                thumbStartX = e.pageX - thumbWrapper.offsetLeft;
-                thumbScrollLeft = thumbWrapper.scrollLeft;
+            // Swipe for Main Image (Mobile Only)
+            let touchStartX = 0;
+            mainImage.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+            mainImage.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                if (touchEndX < touchStartX - 50) { nextBtn.click(); }
+                if (touchEndX > touchStartX + 50) { prevBtn.click(); }
             });
-            thumbWrapper.addEventListener('mousemove', (e) => {
-                if(!isThumbDown) return;
-                e.preventDefault();
-                const x = e.pageX - thumbWrapper.offsetLeft;
-                const walk = x - thumbStartX;
-                if (Math.abs(walk) > 5) { // Threshold to confirm drag
-                    hasDragged = true;
-                }
-                thumbWrapper.scrollLeft = thumbScrollLeft - walk;
-            });
-            window.addEventListener('mouseup', () => {
-                isThumbDown = false;
-                thumbWrapper.classList.remove('cursor-grabbing');
-            });
+
+            // Click on Thumbnails
             thumbWrapper.addEventListener('click', (e) => {
-                if(hasDragged) {
-                    e.preventDefault();
-                    return;
-                }
                 const clickedThumb = e.target.closest('.thumbnail');
                 if (clickedThumb) {
                     updateGallery(parseInt(clickedThumb.dataset.index, 10));
