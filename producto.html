@@ -289,11 +289,11 @@
             galleryContainer.innerHTML = `
                 <div class="mb-4 relative group">
                     <img id="main-image" src="${mainImageUrl}" onerror="this.onerror=null;this.src='${placeholderUrl}';" alt="Imagen principal de ${productName}" class="w-full aspect-square object-cover rounded-lg shadow-md cursor-pointer">
-                    <button id="gallery-prev-btn" class="gallery-arrow absolute left-3 top-1/2 -translate-y-1/2 bg-white/50 rounded-full h-10 w-10 flex items-center justify-center shadow-md z-10 text-xl text-gray-800 hover:bg-white/80">&lt;</button>
-                    <button id="gallery-next-btn" class="gallery-arrow absolute right-3 top-1/2 -translate-y-1/2 bg-white/50 rounded-full h-10 w-10 flex items-center justify-center shadow-md z-10 text-xl text-gray-800 hover:bg-white/80">&gt;</button>
+                    <button id="gallery-prev-btn" class="gallery-arrow absolute left-3 top-1/2 -translate-y-1/2 bg-white/50 rounded-full h-10 w-10 flex items-center justify-center shadow-md z-10 text-xl text-gray-800 hover:bg-white/80"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button id="gallery-next-btn" class="gallery-arrow absolute right-3 top-1/2 -translate-y-1/2 bg-white/50 rounded-full h-10 w-10 flex items-center justify-center shadow-md z-10 text-xl text-gray-800 hover:bg-white/80"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
                 <div class="relative">
-                    <div id="thumbnail-wrapper" class="overflow-x-auto whitespace-nowrap scroll-smooth scrollbar-hide flex gap-2">
+                    <div id="thumbnail-wrapper" class="overflow-x-auto whitespace-nowrap scroll-smooth scrollbar-hide flex gap-2 cursor-grab">
                         ${thumbnailsHTML}
                     </div>
                 </div>
@@ -323,8 +323,9 @@
             const mainImage = document.getElementById('main-image');
             const prevBtn = document.getElementById('gallery-prev-btn');
             const nextBtn = document.getElementById('gallery-next-btn');
+            const thumbWrapper = document.getElementById('thumbnail-wrapper');
             
-            if(!mainImage || !prevBtn || !nextBtn) return;
+            if(!mainImage || !prevBtn || !nextBtn || !thumbWrapper) return;
 
             const updateGallery = () => {
                 mainImage.src = photoUrls[currentIndex];
@@ -345,36 +346,40 @@
                 updateGallery();
             });
 
-            // Swipe functionality for main image (touch and mouse)
-            let touchStartX = 0;
-            let touchEndX = 0;
+            // Swipe/Drag functionality for main image
+            let isDown = false;
+            let startX = 0;
 
-            const handleSwipe = () => {
-                if (touchEndX < touchStartX - 50) { // Swiped left
-                    nextBtn.click();
-                }
-                if (touchEndX > touchStartX + 50) { // Swiped right
-                    prevBtn.click();
-                }
+            const handleSwipe = (endX) => {
+                if (endX < startX - 50) { nextBtn.click(); }
+                if (endX > startX + 50) { prevBtn.click(); }
             };
 
-            mainImage.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
+            mainImage.addEventListener('touchstart', (e) => { startX = e.changedTouches[0].screenX; }, { passive: true });
+            mainImage.addEventListener('touchend', (e) => { handleSwipe(e.changedTouches[0].screenX); });
+            mainImage.addEventListener('mousedown', (e) => { isDown = true; startX = e.pageX; e.preventDefault(); });
+            mainImage.addEventListener('mouseup', (e) => { isDown = false; handleSwipe(e.pageX); });
+            mainImage.addEventListener('mouseleave', () => { isDown = false; });
 
-            mainImage.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
+            // Drag/Swipe for thumbnails
+            let isThumbDown = false;
+            let thumbStartX;
+            let thumbScrollLeft;
+
+            thumbWrapper.addEventListener('mousedown', (e) => {
+                isThumbDown = true;
+                thumbWrapper.classList.add('cursor-grabbing');
+                thumbStartX = e.pageX - thumbWrapper.offsetLeft;
+                thumbScrollLeft = thumbWrapper.scrollLeft;
             });
-
-            mainImage.addEventListener('mousedown', (e) => {
-                touchStartX = e.pageX;
-                e.preventDefault(); // Prevent image drag
-            });
-
-            mainImage.addEventListener('mouseup', (e) => {
-                touchEndX = e.pageX;
-                handleSwipe();
+            thumbWrapper.addEventListener('mouseleave', () => { isThumbDown = false; thumbWrapper.classList.remove('cursor-grabbing'); });
+            thumbWrapper.addEventListener('mouseup', () => { isThumbDown = false; thumbWrapper.classList.remove('cursor-grabbing'); });
+            thumbWrapper.addEventListener('mousemove', (e) => {
+                if(!isThumbDown) return;
+                e.preventDefault();
+                const x = e.pageX - thumbWrapper.offsetLeft;
+                const walk = (x - thumbStartX) * 2;
+                thumbWrapper.scrollLeft = thumbScrollLeft - walk;
             });
         }
 
