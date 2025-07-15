@@ -181,12 +181,22 @@
             return lines.slice(1).map((line, index) => {
                 if (line.trim() === '') return null;
                 
-                const values = line.split(',');
-                const product = {};
+                // Regex to handle quoted fields that may contain commas
+                const regex = /(?<=,|^)(?:"(?:[^"]|"")*"|[^,]*)/g;
+                let values = line.match(regex) || [];
 
-                for (let i = 0; i < headers.length; i++) {
-                    product[headers[i]] = values[i] ? values[i].trim() : '';
-                }
+                // Clean up values: remove wrapping quotes and un-escape double quotes
+                values = values.map(v => {
+                    if (v.startsWith('"') && v.endsWith('"')) {
+                        return v.slice(1, -1).replace(/""/g, '"');
+                    }
+                    return v;
+                });
+                
+                const product = headers.reduce((obj, header, i) => {
+                    obj[header] = values[i] ? values[i].trim() : '';
+                    return obj;
+                }, {});
 
                 product.id = index;
                 return product;
