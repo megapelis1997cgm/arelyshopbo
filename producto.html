@@ -174,6 +174,25 @@
             }
         });
 
+        function parseCSV(text) {
+            const lines = text.trim().split(/\r\n|\n/);
+            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+            
+            return lines.slice(1).map((line, index) => {
+                if (line.trim() === '') return null;
+                
+                const values = line.split(',');
+                const product = {};
+
+                for (let i = 0; i < headers.length; i++) {
+                    product[headers[i]] = values[i] ? values[i].trim() : '';
+                }
+
+                product.id = index;
+                return product;
+            }).filter(Boolean);
+        }
+
         // --- DATA FETCHING AND DISPLAY ---
         document.addEventListener('DOMContentLoaded', () => {
             const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwnLFgBw30tyAFXc2olw5LLnqQdaxMRiZSpSndWSWhslTkqATarBs8dLImUhcXLK8EmBEs7gUL10oK/pub?output=csv';
@@ -203,25 +222,6 @@
                 container.innerHTML = '<h1 class="text-2xl font-bold text-center text-red-600">No se pudo cargar el producto.</h1>';
               });
         });
-
-        function parseCSV(text) {
-            const lines = text.trim().split(/\r\n|\n/);
-            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-            
-            return lines.slice(1).map((line, index) => {
-                if (line.trim() === '') return null;
-                
-                const values = line.split(',');
-                const product = {};
-
-                for (let i = 0; i < headers.length; i++) {
-                    product[headers[i]] = values[i] ? values[i].trim() : '';
-                }
-
-                product.id = index;
-                return product;
-            }).filter(Boolean);
-        }
 
         function displayProductDetails(product) {
             const container = document.getElementById('product-details-container');
